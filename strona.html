@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uruchamianie Kamerki z MediaPipe</title>
+    <title>Uruchamianie Kamerki z MediaPipe - Licznik Przysiadów</title>
     <style>
         video {
             width: 80%;
@@ -11,6 +12,7 @@
             border: 2px solid #333;
             border-radius: 8px;
         }
+
         canvas {
             position: absolute;
             top: 0;
@@ -18,19 +20,30 @@
             width: 80%;
             max-width: 640px;
         }
+
+        #counter {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
     </style>
 </head>
+
 <body>
 
-    <h1>Podgląd z Kamerki z MediaPipe</h1>
+    <h1>Podgląd z Kamerki z MediaPipe - Licznik Przysiadów</h1>
     <video id="videoElement" autoplay playsinline></video>
     <canvas id="outputCanvas"></canvas>
+    <div id="counter">Przysiady: 0</div>
 
     <!-- Dodaj MediaPipe -->
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils"></script>
 
     <script>
+        let squatCount = 0;
+        let isSquatting = false;
+
         async function startCamera() {
             const video = document.querySelector("#videoElement");
             try {
@@ -57,6 +70,28 @@
                     { color: '#00FF00', lineWidth: 4 });
                 drawLandmarks(canvasCtx, results.poseLandmarks,
                     { color: '#FF0000', lineWidth: 2 });
+
+                updateSquatCounter(results.poseLandmarks);
+            }
+        }
+
+        function updateSquatCounter(poseLandmarks) {
+            const leftHip = poseLandmarks[23];
+            const rightHip = poseLandmarks[24];
+            const leftKnee = poseLandmarks[25];
+            const rightKnee = poseLandmarks[26];
+
+            // Obliczenie średniej wysokości bioder i kolan
+            const hipY = (leftHip.y + rightHip.y) / 2;
+            const kneeY = (leftKnee.y + rightKnee.y) / 2;
+
+            // Warunek wykrycia przysiadu (hipY > kneeY oznacza, że biodra są niżej niż kolana)
+            if (hipY > kneeY && !isSquatting) {
+                isSquatting = true; // Wykrycie przysiadu
+            } else if (hipY < kneeY && isSquatting) {
+                squatCount++;
+                isSquatting = false; // Wykrycie powrotu do pozycji stojącej
+                document.getElementById("counter").innerText = `Przysiady: ${squatCount}`;
             }
         }
 
@@ -94,4 +129,5 @@
     </script>
 
 </body>
+
 </html>
