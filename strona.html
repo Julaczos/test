@@ -56,6 +56,8 @@
         let squatCount = 0;
         let isSquatting = false;
         let isStanding = true;
+        let squatTimeout;
+
 
         async function startCamera() {
             const video = document.querySelector("#videoElement");
