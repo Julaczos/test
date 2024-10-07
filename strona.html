@@ -98,14 +98,17 @@
             document.getElementById("counter").innerText = `biodra: ${hipY}`;
             document.getElementById("counter2").innerText = `kolana: ${kneeY}`;
 
-            
-            if (hipY + 0.1 > kneeY && !isSquatting) {
-                isSquatting = true;
-            } else if (hipY < kneeY && isSquatting) {
-                squatCount++;
-                isSquatting = false; 
-                document.getElementById("counter3").innerText = `Przysiady: ${squatCount}`;
-            }
+            while (squatCount < 100000)
+                {
+                    if (hipY + 0.1 > kneeY && !isSquatting) {
+                        isSquatting = true;
+                    } else if (hipY < kneeY && isSquatting) {
+                        squatCount++;
+                        document.getElementById("counter3").innerText = `Przysiady: ${squatCount}`;
+                    }
+                    isSquatting = false;                     
+                }
+
         }
 
         async function initMediaPipe() {
