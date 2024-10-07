@@ -36,7 +36,6 @@
     <canvas id="outputCanvas"></canvas>
     <div id="counter">Przysiady: 0</div>
 
-    <!-- Dodaj MediaPipe -->
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils"></script>
 
@@ -54,7 +53,6 @@
             }
         }
 
-        // Funkcja uruchamiana po otrzymaniu wyników z analizy pozycji
         function onPoseResults(results) {
             const canvasElement = document.getElementById('outputCanvas');
             const canvasCtx = canvasElement.getContext('2d');
@@ -63,7 +61,6 @@
             canvasElement.width = results.image.width;
             canvasElement.height = results.image.height;
 
-            // Rysowanie wyników na canvasie
             canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
             if (results.poseLandmarks) {
                 drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS,
@@ -80,17 +77,19 @@
             const rightHip = poseLandmarks[24];
             const leftKnee = poseLandmarks[25];
             const rightKnee = poseLandmarks[26];
-
-            // Obliczenie średniej wysokości bioder i kolan
+            
             const hipY = (leftHip.y + rightHip.y) / 2;
             const kneeY = (leftKnee.y + rightKnee.y) / 2;
 
-            // Warunek wykrycia przysiadu (hipY > kneeY oznacza, że biodra są niżej niż kolana)
+
+            document.getElementById("counter").innerText = `Przysiady: ${hipY}`;
+
+            
             if (hipY > kneeY && !isSquatting) {
-                isSquatting = true; // Wykrycie przysiadu
+                isSquatting = true;
             } else if (hipY < kneeY && isSquatting) {
                 squatCount++;
-                isSquatting = false; // Wykrycie powrotu do pozycji stojącej
+                isSquatting = false; 
                 document.getElementById("counter").innerText = `Przysiady: ${squatCount}`;
             }
         }
@@ -111,7 +110,6 @@
 
             pose.onResults(onPoseResults);
 
-            // Wysyłanie obrazów do MediaPipe Pose
             async function detectPose() {
                 if (videoElement.readyState >= 3) {
                     await pose.send({ image: videoElement });
