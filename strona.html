@@ -26,6 +26,12 @@
             font-weight: bold;
             margin-top: 20px;
         }
+
+        #bicepCounter {
+            font-size: 34px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -35,6 +41,8 @@
     <video id="videoElement" autoplay playsinline></video>
     <canvas id="outputCanvas"></canvas>
     <div id="counter3">przysiady: 0</div>
+    <div id="bicepCounter">Biceps Curls: 0</div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils"></script>
@@ -42,7 +50,8 @@
     <script>
         let squatCount = 0;
         let isSquatting = false;
-        let isStanding = true;
+        let bicepCurlCount = 0;  
+        let isCurling = false; 
 
         async function startCamera() {
             const video = document.querySelector("#videoElement");
@@ -70,6 +79,7 @@
                     { color: '#FF0000', lineWidth: 2 });
 
                 updateSquatCounter(results.poseLandmarks);
+                updateBicepCurlCounter(results.poseLandmarks);
             }
         }
 
@@ -103,6 +113,30 @@ function updateSquatCounter(poseLandmarks) {
         squatCount++;
         isSquatting = false;
         document.getElementById("counter3").innerText = `Przysiady: ${squatCount}`;
+    }
+}
+
+        function updateBicepCurlCounter(poseLandmarks) {
+    const leftShoulder = poseLandmarks[11];
+    const leftElbow = poseLandmarks[13];
+    const leftWrist = poseLandmarks[15];
+
+    const rightShoulder = poseLandmarks[12];
+    const rightElbow = poseLandmarks[14];
+    const rightWrist = poseLandmarks[16];
+
+    const leftElbowAngle = calculateAngle(leftShoulder, leftElbow, leftWrist);
+    const rightElbowAngle = calculateAngle(rightShoulder, rightElbow, rightWrist);
+
+    const averageElbowAngle = (leftElbowAngle + rightElbowAngle) / 2;
+
+    if (averageElbowAngle < 30 && !isCurling) {
+        isCurling = true; 
+    }
+    else if (averageElbowAngle > 150 && isCurling) {
+        bicepCurlCount++;
+        isCurling = false; 
+        document.getElementById("bicepCounter").innerText = `Biceps Curls: ${bicepCurlCount}`;
     }
 }
 
