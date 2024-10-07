@@ -34,7 +34,8 @@
     <h1>Podgląd z Kamerki z MediaPipe - Licznik Przysiadów</h1>
     <video id="videoElement" autoplay playsinline></video>
     <canvas id="outputCanvas"></canvas>
-    <div id="counter">Przysiady: 0</div>
+    <div id="counter">biodra: 0</div>
+    <div id="counter2">kolana: 0</div>
 
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils"></script>
@@ -82,7 +83,8 @@
             const kneeY = (leftKnee.y + rightKnee.y) / 2;
 
 
-            document.getElementById("counter").innerText = `Przysiady: ${hipY}`;
+            document.getElementById("counter").innerText = `biodra: ${hipY}`;
+            document.getElementById("counter2").innerText = `kolana: ${kneeY}`;
 
             
             if (hipY > kneeY && !isSquatting) {
