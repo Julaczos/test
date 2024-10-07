@@ -21,7 +21,12 @@
             max-width: 640px;
         }
 
-        #bicepCounter {
+        #counter {
+            font-size: 34px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        #counter2 {
             font-size: 34px;
             font-weight: bold;
             margin-top: 20px;
@@ -40,9 +45,9 @@
     <h1>Podgląd z Kamerki z MediaPipe - Licznik Przysiadów 3</h1>
     <video id="videoElement" autoplay playsinline></video>
     <canvas id="outputCanvas"></canvas>
+    <div id="counter">biodra: 0</div>
+    <div id="counter2">kolana: 0</div>
     <div id="counter3">przysiady: 0</div>
-    <div id="bicepCounter">Biceps Curls: 0</div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils"></script>
@@ -78,7 +83,6 @@
                     { color: '#FF0000', lineWidth: 2 });
 
                 updateSquatCounter(results.poseLandmarks);
-                updateBicepCurlCounter(results.poseLandmarks);
             }
         }
 
@@ -118,35 +122,6 @@ function updateSquatCounter(poseLandmarks) {
         document.getElementById("counter3").innerText = `Przysiady: ${squatCount}`;
     }
 }
-
-        function updateBicepCurlCounter(poseLandmarks) {
-    const leftShoulder = poseLandmarks[11];
-    const leftElbow = poseLandmarks[13];
-    const leftWrist = poseLandmarks[15];
-
-    const rightShoulder = poseLandmarks[12];
-    const rightElbow = poseLandmarks[14];
-    const rightWrist = poseLandmarks[16];
-
-    // Obliczanie kątów w lewym i prawym łokciu
-    const leftElbowAngle = calculateAngle(leftShoulder, leftElbow, leftWrist);
-    const rightElbowAngle = calculateAngle(rightShoulder, rightElbow, rightWrist);
-
-    // Ustalanie średniego kąta łokci
-    const averageElbowAngle = (leftElbowAngle + rightElbowAngle) / 2;
-
-    // Warunek wykrycia biceps curls (gdy kąt jest mniejszy niż 30 stopni)
-    if (averageElbowAngle < 30 && !isCurling) {
-        isCurling = true; // Wykrycie, że użytkownik znajduje się w dolnej pozycji
-    }
-    // Warunek wykrycia powrotu do pozycji wyjściowej (gdy kąt jest większy niż 150 stopni)
-    else if (averageElbowAngle > 150 && isCurling) {
-        bicepCurlCount++;
-        isCurling = false; // Powrót do pozycji wyjściowej
-        document.getElementById("bicepCounter").innerText = `Biceps Curls: ${bicepCurlCount}`;
-    }
-}
-
 
 
         async function initMediaPipe() {
