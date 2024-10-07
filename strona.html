@@ -42,7 +42,7 @@
 
 <body>
 
-    <h1>Podgląd z Kamerki z MediaPipe - Licznik Przysiadów 2</h1>
+    <h1>Podgląd z Kamerki z MediaPipe - Licznik Przysiadów 3</h1>
     <video id="videoElement" autoplay playsinline></video>
     <canvas id="outputCanvas"></canvas>
     <div id="counter">biodra: 0</div>
@@ -56,8 +56,6 @@
         let squatCount = 0;
         let isSquatting = false;
         let isStanding = true;
-        let squatTimeout;
-
 
         async function startCamera() {
             const video = document.querySelector("#videoElement");
@@ -88,35 +86,43 @@
             }
         }
 
-        function updateSquatCounter(poseLandmarks) {
-            const leftHip = poseLandmarks[23];
-            const rightHip = poseLandmarks[24];
-            const leftKnee = poseLandmarks[25];
-            const rightKnee = poseLandmarks[26];
-            
-            const hipY = (leftHip.y + rightHip.y) / 2 + 0.1;
-            const kneeY = (leftKnee.y + rightKnee.y) / 2;
+function calculateAngle(A, B, C) {
+    const radians = Math.atan2(C.y - B.y, C.x - B.x) - Math.atan2(A.y - B.y, A.x - B.x);
+    let angle = Math.abs(radians * 180.0 / Math.PI);
+    if (angle > 180) {
+        angle = 360 - angle;
+    }
+    return angle;
+}
 
+function updateSquatCounter(poseLandmarks) {
+    const leftHip = poseLandmarks[23];
+    const leftKnee = poseLandmarks[25];
+    const leftAnkle = poseLandmarks[27];
 
-            document.getElementById("counter").innerText = `biodra: ${hipY}`;
-            document.getElementById("counter2").innerText = `kolana: ${kneeY}`;
-            
-            if (hipY > kneeY && !isSquatting) {
-                    isSquatting = true;
-            } else if (hipY < kneeY && isSquatting) {
-                    if (!squatTimeout) {
-                        squatTimeout = setTimeout(() => {
-                            squatCount++;
-                            isSquatting = false;
-                            document.getElementById("counter3").innerText = `Przysiady: ${squatCount}`;
-                            squatTimeout = null;
-                        }, 500); // 500 ms delay to ensure the squat is completed
-                    }
-                }
-                                  
+    const rightHip = poseLandmarks[24];
+    const rightKnee = poseLandmarks[26];
+    const rightAnkle = poseLandmarks[28];
 
+    // Obliczenie kątów w lewym i prawym kolanie
+    const leftKneeAngle = calculateAngle(leftHip, leftKnee, leftAnkle);
+    const rightKneeAngle = calculateAngle(rightHip, rightKnee, rightAnkle);
 
-        }
+    // Obliczenie średniego kąta w kolanach
+    const averageKneeAngle = (leftKneeAngle + rightKneeAngle) / 2;
+
+    // Warunek wykrycia przysiadu (gdy kąt jest mniejszy niż 70 stopni)
+    if (averageKneeAngle < 70 && !isSquatting) {
+        isSquatting = true; // Wykrycie, że użytkownik znajduje się w przysiadzie
+    }
+    // Warunek wykrycia powrotu do pozycji stojącej (gdy kąt jest większy niż 160 stopni)
+    else if (averageKneeAngle > 160 && isSquatting) {
+        squatCount++;
+        isSquatting = false; // Powrót do pozycji stojącej
+        document.getElementById("counter3").innerText = `Przysiady: ${squatCount}`;
+    }
+}
+
 
         async function initMediaPipe() {
             const videoElement = document.querySelector("#videoElement");
