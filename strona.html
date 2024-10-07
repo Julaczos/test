@@ -31,6 +31,12 @@
             font-weight: bold;
             margin-top: 20px;
         }
+
+        #counter3 {
+            font-size: 34px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -92,12 +98,12 @@
             document.getElementById("counter2").innerText = `kolana: ${kneeY}`;
 
             
-            if (hipY > kneeY && !isSquatting) {
+            if (hipY + 0.1 > kneeY && !isSquatting) {
                 isSquatting = true;
             } else if (hipY < kneeY && isSquatting) {
                 squatCount++;
                 isSquatting = false; 
-                document.getElementById("counter").innerText = `Przysiady: ${squatCount}`;
+                document.getElementById("counter3").innerText = `Przysiady: ${squatCount}`;
             }
         }
 
