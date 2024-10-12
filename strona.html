@@ -6,19 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Licznik przysiadów v4</title>
     <style>
-        video {
+        canvas {
             width: 80%;
             max-width: 640px;
             border: 2px solid #333;
             border-radius: 8px;
-        }
-
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 80%;
-            max-width: 640px;
         }
 
         #counter3 {
@@ -32,13 +24,18 @@
             font-weight: bold;
             margin-top: 20px;
         }
+
+        #levelDisplay, #xpDisplay {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
     </style>
 </head>
 
 <body>
 
     <h1>Licznik przysiadów i XP</h1>
-    <video id="videoElement" autoplay playsinline></video>
     <canvas id="outputCanvas"></canvas>
     <div id="counter3">Przysiady: 0</div>
     <div id="bicepCounter">Biceps Curls: 0</div>
@@ -51,7 +48,7 @@
     <script>
         let squatCount = 0;
         let isSquatting = false;
-        let bicepCurlCount = 0;  
+        let bicepCurlCount = 0;
         let isCurling = false;
 
         let level = 1;
@@ -67,8 +64,8 @@
         function checkLevelUp() {
             if (xp >= xpToNextLevel) {
                 level++;
-                xp -= xpToNextLevel;  
-                xpToNextLevel = Math.floor(xpToNextLevel * 1.5);  
+                xp -= xpToNextLevel;
+                xpToNextLevel = Math.floor(xpToNextLevel * 1.5);
 
                 document.getElementById("levelDisplay").innerText = `Poziom: ${level}`;
                 document.getElementById("xpDisplay").innerText = `XP: ${xp} / ${xpToNextLevel}`;
@@ -92,13 +89,11 @@
 
             if (averageKneeAngle < 70 && !isSquatting) {
                 isSquatting = true; 
-            }
-            else if (averageKneeAngle > 160 && isSquatting) {
+            } else if (averageKneeAngle > 160 && isSquatting) {
                 squatCount++;
                 isSquatting = false;
                 document.getElementById("counter3").innerText = `Przysiady: ${squatCount}`;
-
-                gainXP(10);  
+                gainXP(10);
             }
         }
 
@@ -118,13 +113,11 @@
 
             if (averageElbowAngle < 30 && !isCurling) {
                 isCurling = true; 
-            }
-            else if (averageElbowAngle > 150 && isCurling) {
+            } else if (averageElbowAngle > 150 && isCurling) {
                 bicepCurlCount++;
-                isCurling = false; 
+                isCurling = false;
                 document.getElementById("bicepCounter").innerText = `Biceps Curls: ${bicepCurlCount}`;
-
-                gainXP(5);  
+                gainXP(5);
             }
         }
 
@@ -138,23 +131,25 @@
         }
 
         async function startCamera() {
-            const video = document.querySelector("#videoElement");
+            const video = document.createElement("video");  // Tworzymy element wideo, ale go nie wyświetlamy
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 video.srcObject = stream;
+                video.play();
+                return video;
             } catch (err) {
                 console.error("Błąd podczas uzyskiwania dostępu do kamerki: ", err);
+                alert("Nie można uzyskać dostępu do kamery. Upewnij się, że udzielono odpowiednich uprawnień.");
             }
         }
 
-        async function initMediaPipe() {
-            const videoElement = document.querySelector("#videoElement");
+        async function initMediaPipe(video) {
             const pose = new Pose({
                 locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`
             });
 
             pose.setOptions({
-                modelComplexity: 1,
+                modelComplexity: 0,
                 smoothLandmarks: true,
                 enableSegmentation: false,
                 minDetectionConfidence: 0.5,
@@ -164,18 +159,13 @@
             pose.onResults(onPoseResults);
 
             async function detectPose() {
-                if (videoElement.readyState >= 3) {
-                    await pose.send({ image: videoElement });
+                if (video.readyState >= 3) {
+                    await pose.send({ image: video });
                 }
                 requestAnimationFrame(detectPose);
             }
 
             detectPose();
-        }
-
-        window.onload = () => {
-            startCamera();
-            initMediaPipe();
         }
 
         function onPoseResults(results) {
@@ -197,8 +187,18 @@
                 updateBicepCurlCounter(results.poseLandmarks);
             }
         }
+
+        window.onload = async () => {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert("Twoja przeglądarka nie obsługuje dostępu do kamery. Prosimy o aktualizację.");
+            } else {
+                const video = await startCamera();
+                if (video) {
+                    initMediaPipe(video);
+                }
+            }
+        }
     </script>
 </body>
-
 
 </html>
