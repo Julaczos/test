@@ -8,7 +8,20 @@ function calculateAngle(A, B, C) {
 }
 
 function onPoseResults(results) {
+    const canvasElement = document.getElementById('outputCanvas');
+    const canvasCtx = canvasElement.getContext('2d');
+
+    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+    canvasElement.width = results.image.width;
+    canvasElement.height = results.image.height;
+
+    canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
     if (results.poseLandmarks) {
+        drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS,
+            { color: '#00FF00', lineWidth: 4 });
+        drawLandmarks(canvasCtx, results.poseLandmarks,
+            { color: '#FF0000', lineWidth: 2 });
+
         updateSquatCounter(results.poseLandmarks);
         updateBicepCurlCounter(results.poseLandmarks);
     }
