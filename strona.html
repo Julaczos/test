@@ -30,6 +30,12 @@
             font-weight: bold;
             margin-top: 10px;
         }
+
+        #errorDisplay {
+            font-size: 24px;
+            color: red;
+            margin-top: 10px;
+        }
     </style>
 </head>
 
@@ -41,6 +47,7 @@
     <div id="bicepCounter">Biceps Curls: 0</div>
     <div id="levelDisplay">Poziom: 1</div>
     <div id="xpDisplay">XP: 0 / 100</div>
+    <div id="errorDisplay"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils"></script>
@@ -82,6 +89,13 @@
             const rightKnee = poseLandmarks[26];
             const rightAnkle = poseLandmarks[28];
 
+            if (!leftHip || !leftKnee || !leftAnkle || !rightHip || !rightKnee || !rightAnkle) {
+                document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
+                return;
+            } else {
+                document.getElementById("errorDisplay").innerText = "";  // Czyści komunikat błędu
+            }
+
             const leftKneeAngle = calculateAngle(leftHip, leftKnee, leftAnkle);
             const rightKneeAngle = calculateAngle(rightHip, rightKnee, rightAnkle);
 
@@ -105,6 +119,13 @@
             const rightShoulder = poseLandmarks[12];
             const rightElbow = poseLandmarks[14];
             const rightWrist = poseLandmarks[16];
+
+            if (!leftShoulder || !leftElbow || !leftWrist || !rightShoulder || !rightElbow || !rightWrist) {
+                document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
+                return;
+            } else {
+                document.getElementById("errorDisplay").innerText = "";  // Czyści komunikat błędu
+            }
 
             const leftElbowAngle = calculateAngle(leftShoulder, leftElbow, leftWrist);
             const rightElbowAngle = calculateAngle(rightShoulder, rightElbow, rightWrist);
