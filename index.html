@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Licznik przysiadów v4</title>
+    <style>
+        #counter3 {
+            font-size: 34px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        #bicepCounter {
+            font-size: 34px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        #levelDisplay,
+        #xpDisplay {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        #errorDisplay {
+            font-size: 24px;
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Licznik przysiadów i XP</h1>
+    <div id="counter3">Przysiady: 0</div>
+    <div id="bicepCounter">Biceps Curls: 0</div>
+    <div id="levelDisplay">Poziom: 1</div>
+    <div id="xpDisplay">XP: 0 / 100</div>
+    <div id="errorDisplay"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose"></script>
+    <script src="camera.js"></script>
+    <script src="poseUtils.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
