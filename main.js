@@ -6,7 +6,7 @@ let lungeCount = 0;
 let isLunging = false; 
 let level = 1;
 let xp = 0;
-let xpToNextLevel = 100;
+let xpToNextLevel = 100; 
 
 function gainXP(amount) {
     xp += amount;
