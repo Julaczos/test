@@ -89,31 +89,34 @@ function updateBicepCurlCounter(poseLandmarks) {
     }
 }
 
-function updateJumpingJackCounter(poseLandmarks) {
+let bendCount = 0;
+let isBending = false;
+
+function updateBendCounter(poseLandmarks) {
     const leftShoulder = poseLandmarks[11];
     const rightShoulder = poseLandmarks[12];
-    const leftWrist = poseLandmarks[15];
-    const rightWrist = poseLandmarks[16];
     const leftHip = poseLandmarks[23];
     const rightHip = poseLandmarks[24];
 
-    if (!leftShoulder || !rightShoulder || !leftWrist || !rightWrist || !leftHip || !rightHip) {
+    if (!leftShoulder || !rightShoulder || !leftHip || !rightHip) {
         document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
         return;
     } else {
         document.getElementById("errorDisplay").innerText = ""; 
     }
 
-    if (leftWrist.x < leftShoulder.x && rightWrist.x > rightShoulder.x && !isJumpingJack) {
-        isJumpingJack = true;
-        console.log("rozłażone ręce");
-    } else if (leftWrist.x >= leftShoulder.x && rightWrist.x <= rightShoulder.x && isJumpingJack) {
-        jumpingJackCount++;
-        isJumpingJack = false;
-        document.getElementById("jumpingJackCounter").innerText = `Pajacyki: ${jumpingJackCount}`;
-        gainXP(10); 
+    const shoulderHipAngle = calculateAngle(leftShoulder, leftHip, rightHip);
+
+    if (shoulderHipAngle < 45 && !isBending) { 
+        isBending = true; 
+    } else if (shoulderHipAngle > 60 && isBending) { 
+        bendCount++;
+        isBending = false;
+        document.getElementById("lungeCounter").innerText = `Skłony: ${bendCount}`;
+        gainXP(5); 
     }
 }
+
 
 window.onload = async () => {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
