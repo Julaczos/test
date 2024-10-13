@@ -78,7 +78,6 @@ function updateBicepCurlCounter(poseLandmarks) {
     const rightElbowAngle = calculateAngle(rightShoulder, rightElbow, rightWrist);
 
     const averageElbowAngle = (leftElbowAngle + rightElbowAngle) / 2;
-    console.log(averageElbowAngle);
     if (averageElbowAngle < 30 && !isCurling) {
         isCurling = true; 
     } else if (averageElbowAngle > 150 && isCurling) {
@@ -89,33 +88,38 @@ function updateBicepCurlCounter(poseLandmarks) {
     }
 }
 
-let bendCount = 0;
-let isBending = false;
+let bendCount = 0;  
+let isBending = false;  
 
 function updateBendCounter(poseLandmarks) {
     const leftShoulder = poseLandmarks[11];
     const rightShoulder = poseLandmarks[12];
     const leftHip = poseLandmarks[23];
     const rightHip = poseLandmarks[24];
+    const leftKnee = poseLandmarks[25];
+    const rightKnee = poseLandmarks[26];
 
-    if (!leftShoulder || !rightShoulder || !leftHip || !rightHip) {
+    if (!leftShoulder || !rightShoulder || !leftHip || !rightHip || !leftKnee || !rightKnee) {
         document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
         return;
     } else {
         document.getElementById("errorDisplay").innerText = ""; 
     }
 
-    const shoulderHipAngle = calculateAngle(leftShoulder, leftHip, rightHip);
+    const leftangle = calculateAngle(leftShoulder, leftHip, leftKnee);
+    const rightangle = calculateAngle(rightShoulder, rightHip, rightKnee); 
 
-    if (shoulderHipAngle < 70 && !isBending) { 
+    const averageAngle = (leftangle + rightangle) / 2;
+    if (averageAngle < 80 && !isBending) { 
         isBending = true; 
-    } else if (shoulderHipAngle > 90 && isBending) { 
+    } else if (averageAngle > 120 && isBending) { 
         bendCount++;
         isBending = false;
-        document.getElementById("lungeCounter").innerText = `Skłony: ${bendCount}`;
+        document.getElementById("lungeCounter").innerText = `Wykroki: ${bendCount}`;
         gainXP(5); 
     }
 }
+
 
 
 window.onload = async () => {
