@@ -78,7 +78,7 @@ function updateBicepCurlCounter(poseLandmarks) {
     const rightElbowAngle = calculateAngle(rightShoulder, rightElbow, rightWrist);
 
     const averageElbowAngle = (leftElbowAngle + rightElbowAngle) / 2;
-
+    console.log(averageElbowAngle);
     if (averageElbowAngle < 30 && !isCurling) {
         isCurling = true; 
     } else if (averageElbowAngle > 150 && isCurling) {
