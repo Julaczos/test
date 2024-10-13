@@ -2,7 +2,8 @@ let squatCount = 0;
 let isSquatting = false;
 let bicepCurlCount = 0;
 let isCurling = false;
-
+let lungeCount = 0;
+let isLunging = false; 
 let level = 1;
 let xp = 0;
 let xpToNextLevel = 100;
@@ -38,7 +39,7 @@ function updateSquatCounter(poseLandmarks) {
         document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
         return;
     } else {
-        document.getElementById("errorDisplay").innerText = "";  // Czyści komunikat błędu
+        document.getElementById("errorDisplay").innerText = ""; 
     }
 
     const leftKneeAngle = calculateAngle(leftHip, leftKnee, leftAnkle);
@@ -69,7 +70,7 @@ function updateBicepCurlCounter(poseLandmarks) {
         document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
         return;
     } else {
-        document.getElementById("errorDisplay").innerText = "";  // Czyści komunikat błędu
+        document.getElementById("errorDisplay").innerText = ""; 
     }
 
     const leftElbowAngle = calculateAngle(leftShoulder, leftElbow, leftWrist);
@@ -84,6 +85,35 @@ function updateBicepCurlCounter(poseLandmarks) {
         isCurling = false;
         document.getElementById("bicepCounter").innerText = `Biceps Curls: ${bicepCurlCount}`;
         gainXP(5);
+    }
+}
+
+function updateLungeCounter(poseLandmarks) {
+    const leftHip = poseLandmarks[23];
+    const leftKnee = poseLandmarks[25];
+    const leftAnkle = poseLandmarks[27];
+
+    const rightHip = poseLandmarks[24];
+    const rightKnee = poseLandmarks[26];
+    const rightAnkle = poseLandmarks[28];
+
+    if (!leftHip || !leftKnee || !leftAnkle || !rightHip || !rightKnee || !rightAnkle) {
+        document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
+        return;
+    } else {
+        document.getElementById("errorDisplay").innerText = ""; 
+    }
+
+    const leftKneeAngle = calculateAngle(leftHip, leftKnee, leftAnkle);
+    const rightKneeAngle = calculateAngle(rightHip, rightKnee, rightAnkle);
+
+    if (leftKneeAngle < 90 && rightKneeAngle > 150 && !isLunging) {
+        isLunging = true; 
+    } else if (leftKneeAngle > 150 && rightKneeAngle < 90 && isLunging) {
+        lungeCount++;
+        isLunging = false;
+        document.getElementById("lungeCounter").innerText = `Wykroki: ${lungeCount}`;
+        gainXP(15);
     }
 }
 
