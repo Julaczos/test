@@ -106,6 +106,7 @@ function updateJumpingJackCounter(poseLandmarks) {
 
     if (leftWrist.x < leftShoulder.x && rightWrist.x > rightShoulder.x && !isJumpingJack) {
         isJumpingJack = true;
+        console.log("rozłażone ręce");
     } else if (leftWrist.x >= leftShoulder.x && rightWrist.x <= rightShoulder.x && isJumpingJack) {
         jumpingJackCount++;
         isJumpingJack = false;
