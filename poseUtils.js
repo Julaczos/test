@@ -24,5 +24,6 @@ function onPoseResults(results) {
 
         updateSquatCounter(results.poseLandmarks);
         updateBicepCurlCounter(results.poseLandmarks);
+        updateBendCounter(results.poseLandmarks);
     }
 }
