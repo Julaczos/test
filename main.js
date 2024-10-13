@@ -2,8 +2,8 @@ let squatCount = 0;
 let isSquatting = false;
 let bicepCurlCount = 0;
 let isCurling = false;
-let jumpingJackCount = 0; 
-let isJumpingJack = false;
+let bendCount = 0;  
+let isBending = false;  
 
 let level = 1;
 let xp = 0;
@@ -88,9 +88,6 @@ function updateBicepCurlCounter(poseLandmarks) {
     }
 }
 
-let bendCount = 0;  
-let isBending = false;  
-
 function updateBendCounter(poseLandmarks) {
     const leftShoulder = poseLandmarks[11];
     const rightShoulder = poseLandmarks[12];
@@ -110,12 +107,12 @@ function updateBendCounter(poseLandmarks) {
     const rightangle = calculateAngle(rightShoulder, rightHip, rightKnee); 
 
     const averageAngle = (leftangle + rightangle) / 2;
-    if (averageAngle < 80 && !isBending) { 
+    if (averageAngle < 70 && !isBending) { 
         isBending = true; 
-    } else if (averageAngle > 120 && isBending) { 
+    } else if (averageAngle > 140 && isBending) { 
         bendCount++;
         isBending = false;
-        document.getElementById("lungeCounter").innerText = `Wykroki: ${bendCount}`;
+        document.getElementById("bendCounter").innerText = `Skłony: ${bendCount}`;
         gainXP(5); 
     }
 }
