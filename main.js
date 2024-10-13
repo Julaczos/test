@@ -107,9 +107,9 @@ function updateBendCounter(poseLandmarks) {
 
     const shoulderHipAngle = calculateAngle(leftShoulder, leftHip, rightHip);
 
-    if (shoulderHipAngle < 45 && !isBending) { 
+    if (shoulderHipAngle < 70 && !isBending) { 
         isBending = true; 
-    } else if (shoulderHipAngle > 60 && isBending) { 
+    } else if (shoulderHipAngle > 90 && isBending) { 
         bendCount++;
         isBending = false;
         document.getElementById("lungeCounter").innerText = `Skłony: ${bendCount}`;
