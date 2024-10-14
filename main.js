@@ -53,7 +53,7 @@ function updateSquatCounter(poseLandmarks) {
     } else if (averageKneeAngle > 160 && isSquatting) {
         squatCount++;
         isSquatting = false;
-        document.getElementById("counter3").innerText = `Przysiady: ${squatCount}`;
+        document.getElementById("squatCounter").innerText = `Przysiady: ${squatCount}`;
         gainXP(10);
     }
 }
