@@ -103,7 +103,7 @@ function updateBendCounter(poseLandmarks) {
     const rightKnee = poseLandmarks[26];
 
     if (!leftShoulder || !rightShoulder || !leftHip || !rightHip || !leftKnee || !rightKnee || 
-       leftShoulder.visibility < 0.5 || rightShoulde.visibility < 0.5 || leftHip.visibility < 0.5 || rightHip.visibility < 0.5 || leftKnee.visibility < 0.5 || rightKnee.visibility < 0.5 ) {
+       leftShoulder.visibility < 0.5 || rightShoulder.visibility < 0.5 || leftHip.visibility < 0.5 || rightHip.visibility < 0.5 || leftKnee.visibility < 0.5 || rightKnee.visibility < 0.5 ) {
         document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
         return;
     } else {
