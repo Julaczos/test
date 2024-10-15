@@ -37,16 +37,19 @@ function updateSquatCounter(poseLandmarks) {
     const rightKnee = poseLandmarks[26];
     const rightAnkle = poseLandmarks[28];
 
-
-    if (poseLandmarks[28].visibility < 0.5) console.log ("BŁĄD");
-    
-     if (leftHip.visibility < 0.5|| leftKnee.visibility < 0.5 || leftAnkle.visibility < 0.5 || rightHip.visibility < 0.5 || rightKnee.visibility < 0.5 || rightAnkle.visibility < 0.5) {
-        document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
-        // alert ("Część sylwetki jest niewidoczna. Ustaw się prawidłowo");
-        return;
+    console.log("Sprawdzanie widoczności punktów...");
+    if (
+        !leftHip || !leftKnee || !leftAnkle || !rightHip || !rightKnee || !rightAnkle ||
+        leftHip.visibility < 0.5 || leftKnee.visibility < 0.5 || leftAnkle.visibility < 0.5 || 
+        rightHip.visibility < 0.5 || rightKnee.visibility < 0.5 || rightAnkle.visibility < 0.) {
+            document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
+            console.log("Punkty niewidoczne");
+            return;
     } else {
-        document.getElementById("errorDisplay").innerText = "Cała sylwetka widoczna, gratulacje!";  
-    } 
+        document.getElementById("errorDisplay").innerText = "Cała sylwetka widoczna, gratulacje!";
+        console.log("Punkty widoczne");
+    }
+
 
     const leftKneeAngle = calculateAngle(leftHip, leftKnee, leftAnkle);
     const rightKneeAngle = calculateAngle(rightHip, rightKnee, rightAnkle);
