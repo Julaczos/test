@@ -36,22 +36,27 @@ function getLandmarkIfVisible(landmark) {
 }
 
 function updateSquatCounter(poseLandmarks) {
-    const leftHip = getLandmarkIfVisible(poseLandmarks[23]);
-    const leftKnee = getLandmarkIfVisible(poseLandmarks[25]);
-    const leftAnkle = getLandmarkIfVisible(poseLandmarks[27]);
+    const leftHip = poseLandmarks[23];
+    const leftKnee = poseLandmarks[25];
+    const leftAnkle = poseLandmarks[27];
 
-    const rightHip = getLandmarkIfVisible(poseLandmarks[24]);
-    const rightKnee = getLandmarkIfVisible(poseLandmarks[26]);
-    const rightAnkle = getLandmarkIfVisible(poseLandmarks[28]);
+    const rightHip = poseLandmarks[24];
+    const rightKnee = poseLandmarks[26];
+    const rightAnkle = poseLandmarks[28];
+
+
+    if (poseLandmarks[28] < 0.5) console.log ("BŁĄD");
+    else console.log("POPRAWNE";
+ //   console.log(poseLandmarks[28].visibility);
+ //   console.log(poseLandmarks[27].visibility);
     
-    if (!leftHip|| !leftKnee || !leftAnkle || !rightHip || !rightKnee || !rightAnkle) {
+/*     if (!leftHip|| !leftKnee || !leftAnkle || !rightHip || !rightKnee || !rightAnkle) {
         document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
         return;
     } else {
         document.getElementById("errorDisplay").innerText = "";  
-    }
-    console.log(poseLandmarks[28].visibility);
-    console.log(poseLandmarks[27].visibility);
+    } */
+
     const leftKneeAngle = calculateAngle(leftHip, leftKnee, leftAnkle);
     const rightKneeAngle = calculateAngle(rightHip, rightKnee, rightAnkle);
 
