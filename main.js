@@ -45,8 +45,9 @@ function updateSquatCounter(poseLandmarks) {
     const rightAnkle = poseLandmarks[28];
 
 
-    if (poseLandmarks[28] < 0.7) console.log ("BŁĄD");
+    if (poseLandmarks[28].visibility < 0.5) console.log ("BŁĄD");
     else console.log("POPRAWNE");
+    console.log(poseLandmarks[28].visibility)
  //   console.log(poseLandmarks[28].visibility);
  //   console.log(poseLandmarks[27].visibility);
     
