@@ -27,8 +27,8 @@ function checkLevelUp() {
     }
 }
 
-function getLandmarkIfVisible(landmark, threshold = 0.5) {
-    if (landmark.visibility !== undefined && landmark.visibility >= threshold) {
+function getLandmarkIfVisible(landmark) {
+    if (landmark.visibility !== undefined && landmark.visibility >= 0.5) {
         return landmark;
     } else {
         return undefined;
@@ -50,7 +50,8 @@ function updateSquatCounter(poseLandmarks) {
     } else {
         document.getElementById("errorDisplay").innerText = "";  
     }
-
+    console.log(poseLandmarks[28].visibility);
+    console.log(poseLandmarks[27].visibility);
     const leftKneeAngle = calculateAngle(leftHip, leftKnee, leftAnkle);
     const rightKneeAngle = calculateAngle(rightHip, rightKnee, rightAnkle);
 
