@@ -41,11 +41,11 @@ function updateSquatCounter(poseLandmarks) {
     if (poseLandmarks[28].visibility < 0.5) console.log ("BŁĄD");
     
      if (leftHip.visibility < 0.5|| leftKnee.visibility < 0.5 || leftAnkle.visibility < 0.5 || rightHip.visibility < 0.5 || rightKnee.visibility < 0.5 || rightAnkle.visibility < 0.5) {
-      //  document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
-         alert ("Część sylwetki jest niewidoczna. Ustaw się prawidłowo");
+        document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
+        // alert ("Część sylwetki jest niewidoczna. Ustaw się prawidłowo");
         return;
     } else {
-        document.getElementById("errorDisplay").innerText = "";  
+        document.getElementById("errorDisplay").innerText = "Cała sylwetka widoczna, gratulacje!";  
     } 
 
     const leftKneeAngle = calculateAngle(leftHip, leftKnee, leftAnkle);
