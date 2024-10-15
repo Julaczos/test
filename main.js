@@ -37,17 +37,14 @@ function updateSquatCounter(poseLandmarks) {
     const rightKnee = poseLandmarks[26];
     const rightAnkle = poseLandmarks[28];
 
-    console.log("Sprawdzanie widoczności punktów...");
     if (
         !leftHip || !leftKnee || !leftAnkle || !rightHip || !rightKnee || !rightAnkle ||
         leftHip.visibility < 0.5 || leftKnee.visibility < 0.5 || leftAnkle.visibility < 0.5 || 
         rightHip.visibility < 0.5 || rightKnee.visibility < 0.5 || rightAnkle.visibility < 0.5) {
             document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
-            console.log("Punkty niewidoczne");
             return;
     } else {
         document.getElementById("errorDisplay").innerText = "Cała sylwetka widoczna, gratulacje!";
-        console.log("Punkty widoczne");
     }
 
 
@@ -75,11 +72,12 @@ function updateBicepCurlCounter(poseLandmarks) {
     const rightElbow = poseLandmarks[14];
     const rightWrist = poseLandmarks[16];
 
-    if (!leftShoulder || !leftElbow || !leftWrist || !rightShoulder || !rightElbow || !rightWrist) {
+    if (!leftShoulder || !leftElbow || !leftWrist || !rightShoulder || !rightElbow || !rightWrist ||
+       leftShoulder.visibility < 0.5 || leftElbow.visibility < 0.5 || leftWrist.visibility < 0.5 || rightShoulder.visibility < 0.5 || rightElbow.visibility < 0.5 || rightWrist.visibility < 0.5) {
         document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
         return;
     } else {
-        document.getElementById("errorDisplay").innerText = "";  
+        document.getElementById("errorDisplay").innerText = "Cała sylwetka widoczna, gratulacje!";  
     }
 
     const leftElbowAngle = calculateAngle(leftShoulder, leftElbow, leftWrist);
@@ -104,11 +102,12 @@ function updateBendCounter(poseLandmarks) {
     const leftKnee = poseLandmarks[25];
     const rightKnee = poseLandmarks[26];
 
-    if (!leftShoulder || !rightShoulder || !leftHip || !rightHip || !leftKnee || !rightKnee) {
+    if (!leftShoulder || !rightShoulder || !leftHip || !rightHip || !leftKnee || !rightKnee || 
+       leftShoulder.visibility < 0.5 || rightShoulde.visibility < 0.5r || leftHip.visibility < 0.5 || rightHip.visibility < 0.5 || leftKnee.visibility < 0.5 || rightKnee.visibility < 0.5 ) {
         document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
         return;
     } else {
-        document.getElementById("errorDisplay").innerText = ""; 
+        document.getElementById("errorDisplay").innerText = "Cała sylwetka widoczna, gratulacje!"; 
     }
 
     const leftangle = calculateAngle(leftShoulder, leftHip, leftKnee);
