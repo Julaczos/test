@@ -41,7 +41,7 @@ function updateSquatCounter(poseLandmarks) {
     if (
         !leftHip || !leftKnee || !leftAnkle || !rightHip || !rightKnee || !rightAnkle ||
         leftHip.visibility < 0.5 || leftKnee.visibility < 0.5 || leftAnkle.visibility < 0.5 || 
-        rightHip.visibility < 0.5 || rightKnee.visibility < 0.5 || rightAnkle.visibility < 0.) {
+        rightHip.visibility < 0.5 || rightKnee.visibility < 0.5 || rightAnkle.visibility < 0.5) {
             document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
             console.log("Punkty niewidoczne");
             return;
