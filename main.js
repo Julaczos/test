@@ -27,13 +27,6 @@ function checkLevelUp() {
     }
 }
 
-function getLandmarkIfVisible(landmark) {
-    if (landmark.visibility !== undefined && landmark.visibility >= 0.5) {
-        return landmark;
-    } else {
-        return undefined;
-    }
-}
 
 function updateSquatCounter(poseLandmarks) {
     const leftHip = poseLandmarks[23];
@@ -46,19 +39,28 @@ function updateSquatCounter(poseLandmarks) {
 
 
     if (poseLandmarks[28].visibility < 0.5) console.log ("BŁĄD");
-    else console.log("POPRAWNE");
-    console.log(poseLandmarks[28].visibility)
- //   console.log(poseLandmarks[28].visibility);
- //   console.log(poseLandmarks[27].visibility);
     
-/*     if (!leftHip|| !leftKnee || !leftAnkle || !rightHip || !rightKnee || !rightAnkle) {
+     if (leftHip.visibility < 0.5|| leftKnee.visibility < 0.5 || leftAnkle.visibility < 0.5 || rightHip.visibility < 0.5 || rightKnee.visibility < 0.5 || rightAnkle.visibility < 0.5) {
         document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
         return;
     } else {
         document.getElementById("errorDisplay").innerText = "";  
-    } */
+        const leftKneeAngle = calculateAngle(leftHip, leftKnee, leftAnkle);
+        const rightKneeAngle = calculateAngle(rightHip, rightKnee, rightAnkle);
+    
+        const averageKneeAngle = (leftKneeAngle + rightKneeAngle) / 2;
+    
+        if (averageKneeAngle < 70 && !isSquatting) {
+            isSquatting = true; 
+        } else if (averageKneeAngle > 160 && isSquatting) {
+            squatCount++;
+            isSquatting = false;
+            document.getElementById("squatCounter").innerText = `Przysiady: ${squatCount}`;
+            gainXP(10);
+        }
+    } 
 
-    const leftKneeAngle = calculateAngle(leftHip, leftKnee, leftAnkle);
+  /*  const leftKneeAngle = calculateAngle(leftHip, leftKnee, leftAnkle);
     const rightKneeAngle = calculateAngle(rightHip, rightKnee, rightAnkle);
 
     const averageKneeAngle = (leftKneeAngle + rightKneeAngle) / 2;
@@ -70,7 +72,7 @@ function updateSquatCounter(poseLandmarks) {
         isSquatting = false;
         document.getElementById("squatCounter").innerText = `Przysiady: ${squatCount}`;
         gainXP(10);
-    }
+    } */
 }
 
 function updateBicepCurlCounter(poseLandmarks) {
