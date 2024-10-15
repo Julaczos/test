@@ -27,16 +27,24 @@ function checkLevelUp() {
     }
 }
 
+function getLandmarkIfVisible(landmark, threshold = 0.5) {
+    if (landmark.visibility !== undefined && landmark.visibility >= threshold) {
+        return landmark;
+    } else {
+        return undefined;
+    }
+}
+
 function updateSquatCounter(poseLandmarks) {
-    const leftHip = poseLandmarks[23];
-    const leftKnee = poseLandmarks[25];
-    const leftAnkle = poseLandmarks[27];
+    const leftHip = getLandmarkIfVisible(poseLandmarks[23]);
+    const leftKnee = getLandmarkIfVisible(poseLandmarks[25]);
+    const leftAnkle = getLandmarkIfVisible(poseLandmarks[27]);
 
-    const rightHip = poseLandmarks[24];
-    const rightKnee = poseLandmarks[26];
-    const rightAnkle = poseLandmarks[28];
-
-    if (!leftHip || !leftKnee || !leftAnkle || !rightHip || !rightKnee || !rightAnkle) {
+    const rightHip = getLandmarkIfVisible(poseLandmarks[24]);
+    const rightKnee = getLandmarkIfVisible(poseLandmarks[26]);
+    const rightAnkle = getLandmarkIfVisible(poseLandmarks[28]);
+    
+    if (!leftHip|| !leftKnee || !leftAnkle || !rightHip || !rightKnee || !rightAnkle) {
         document.getElementById("errorDisplay").innerText = "Część sylwetki jest niewidoczna. Ustaw się prawidłowo.";
         return;
     } else {
