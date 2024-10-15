@@ -45,22 +45,9 @@ function updateSquatCounter(poseLandmarks) {
         return;
     } else {
         document.getElementById("errorDisplay").innerText = "";  
-        const leftKneeAngle = calculateAngle(leftHip, leftKnee, leftAnkle);
-        const rightKneeAngle = calculateAngle(rightHip, rightKnee, rightAnkle);
-    
-        const averageKneeAngle = (leftKneeAngle + rightKneeAngle) / 2;
-    
-        if (averageKneeAngle < 70 && !isSquatting) {
-            isSquatting = true; 
-        } else if (averageKneeAngle > 160 && isSquatting) {
-            squatCount++;
-            isSquatting = false;
-            document.getElementById("squatCounter").innerText = `Przysiady: ${squatCount}`;
-            gainXP(10);
-        }
     } 
 
-  /*  const leftKneeAngle = calculateAngle(leftHip, leftKnee, leftAnkle);
+    const leftKneeAngle = calculateAngle(leftHip, leftKnee, leftAnkle);
     const rightKneeAngle = calculateAngle(rightHip, rightKnee, rightAnkle);
 
     const averageKneeAngle = (leftKneeAngle + rightKneeAngle) / 2;
@@ -72,7 +59,7 @@ function updateSquatCounter(poseLandmarks) {
         isSquatting = false;
         document.getElementById("squatCounter").innerText = `Przysiady: ${squatCount}`;
         gainXP(10);
-    } */
+    } 
 }
 
 function updateBicepCurlCounter(poseLandmarks) {
