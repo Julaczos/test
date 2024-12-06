@@ -53,7 +53,7 @@ function updateSquatCounter(poseLandmarks) {
 
     const averageKneeAngle = (leftKneeAngle + rightKneeAngle) / 2;
 
-    if (averageKneeAngle < 70 && !isSquatting) {
+    if (averageKneeAngle < 85 && !isSquatting) {
         isSquatting = true; 
     } else if (averageKneeAngle > 160 && isSquatting) {
         squatCount++;
