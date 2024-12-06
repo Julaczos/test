@@ -53,9 +53,9 @@ function updateSquatCounter(poseLandmarks) {
 
     const averageKneeAngle = (leftKneeAngle + rightKneeAngle) / 2;
 
-    if (averageKneeAngle < 90 && !isSquatting) {
+    if (averageKneeAngle < 130 && !isSquatting) {
         isSquatting = true; 
-    } else if (averageKneeAngle > 140 && isSquatting) {
+    } else if (averageKneeAngle > 160 && isSquatting) {
         squatCount++;
         isSquatting = false;
         document.getElementById("squatCounter").innerText = `Przysiady: ${squatCount}`;
