@@ -13,6 +13,11 @@
             border-radius: 8px;
         }
 
+        #data {
+            margin-left: 1050pz;
+            margin-top: 10px;
+        }
+
         #squatCounter {
             font-size: 34px;
             font-weight: bold;
@@ -52,13 +57,16 @@
 
     <h1>Licznik przysiadów i XP</h1>
     <canvas id="outputCanvas"></canvas>
-    <div id="squatCounter">Przysiady: 0</div>
-    <div id="bicepCounter">Biceps Curls: 0</div>
-    <div id="bendCounter">Skłony: 0</div>
-    <div id="levelDisplay">Poziom: 1</div>
-    <div id="xpDisplay">XP: 0 / 100</div>
-    <div id="errorDisplay">Błędy: </div>
-
+    
+    <div id="data">
+        <div id="squatCounter">Przysiady: 0</div>
+        <div id="bicepCounter">Biceps Curls: 0</div>
+        <div id="bendCounter">Skłony: 0</div>
+        <div id="levelDisplay">Poziom: 1</div>
+        <div id="xpDisplay">XP: 0 / 100</div>
+        <div id="errorDisplay">Błędy: </div>
+    </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils"></script>
     <script src="camera.js"></script>
